@@ -78,4 +78,16 @@ public class DeliveryService {
 
         return deliveries.map(deliveryMapper::toDeliveryDetailDTO);
     }
+
+    public DeliveryDetailDTO updateStatus(String trackingCode, DeliveryStatus status) {
+
+        Delivery delivery = deliveryRepository.findByTrackingCode(trackingCode)
+                .orElseThrow(() -> new RuntimeException("Delivery not found"));
+
+        delivery.setStatus(status);
+
+        deliveryRepository.save(delivery);
+
+        return deliveryMapper.toDeliveryDetailDTO(delivery);
+    }
 }

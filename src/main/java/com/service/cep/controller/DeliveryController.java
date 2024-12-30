@@ -1,5 +1,6 @@
 package com.service.cep.controller;
 
+import com.service.cep.domian.enums.DeliveryStatus;
 import com.service.cep.dto.delivery.DeliveryCreateDTO;
 import com.service.cep.dto.delivery.DeliveryDetailDTO;
 import com.service.cep.dto.delivery.DeliveryFilter;
@@ -27,6 +28,14 @@ public class DeliveryController {
     @PostMapping
     public DeliveryDetailDTO create(@RequestBody DeliveryCreateDTO dto) {
         return deliveryService.createDelivery(dto);
+    }
+
+    @PutMapping("/{trackingCode}")
+    public DeliveryDetailDTO updateDeliveryStatus(
+            @PathVariable String trackingCode,
+            @RequestParam DeliveryStatus status
+    ){
+        return deliveryService.updateStatus(trackingCode, status);
     }
 
     //TODO endpoint -> atualizar entrega por trackingCode
