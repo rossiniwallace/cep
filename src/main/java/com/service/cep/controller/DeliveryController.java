@@ -22,4 +22,8 @@ public class DeliveryController {
     public DeliveryDetailDTO create(@RequestBody DeliveryCreateDTO dto) {
         return deliveryService.createDelivery(dto);
     }
+
+    //TODO endpoint -> buscar por trackingCode
+    //TODO endpoint -> listar entregas
+    //TODO endpoint -> atualizar entrega por trackingCode
 }

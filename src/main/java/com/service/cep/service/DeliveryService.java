@@ -11,7 +11,6 @@ import com.service.cep.utils.DummyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.MessageFormat;
 import java.util.Date;
 
 @Service
@@ -27,6 +26,8 @@ public class DeliveryService {
     private DeliveryMapper deliveryMapper;
 
     public DeliveryDetailDTO createDelivery(DeliveryCreateDTO dto) {
+
+      //TODO realizar tratativa de erros
 
         Date now  = new Date();
 
