@@ -14,8 +14,8 @@ public class DeliveryController {
     private DeliveryService deliveryService;
 
     @GetMapping
-    public String list() {
-        return "Listagem de produtos";
+    public DeliveryDetailDTO findByTrackingCode(@RequestParam String trackingCode) {
+        return deliveryService.findByTrackingCode(trackingCode);
     }
 
     @PostMapping

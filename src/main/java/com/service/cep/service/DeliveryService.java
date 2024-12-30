@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class DeliveryService {
@@ -51,4 +52,14 @@ public class DeliveryService {
         return deliveryMapper.toDeliveryDetailDTO(delivery);
     }
 
+    public DeliveryDetailDTO findByTrackingCode(String trackingCode) {
+
+        Optional<Delivery> optionalDelivery = deliveryRepository.findByTrackingCode(trackingCode);
+
+        if(optionalDelivery.isEmpty()){
+            throw new RuntimeException("Delivery not found for tracking code: " + trackingCode);
+        };
+
+        return deliveryMapper.toDeliveryDetailDTO(optionalDelivery.get());
+    }
 }
