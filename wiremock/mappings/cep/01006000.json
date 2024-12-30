@@ -1,0 +1,32 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/cep",
+    "queryParameters": {
+      "cep": {
+        "equalTo": "01006000"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody":  {
+      "cep": "01006-000",
+      "logradouro": "Rua da Consolação",
+      "complemento": "lado ímpar",
+      "unidade": "",
+      "bairro": "Consolação",
+      "localidade": "São Paulo",
+      "uf": "SP",
+      "estado": "São Paulo",
+      "regiao": "Sudeste",
+      "ibge": "3550308",
+      "gia": "1004",
+      "ddd": "11",
+      "siafi": "7107"
+    }
+  }
+}

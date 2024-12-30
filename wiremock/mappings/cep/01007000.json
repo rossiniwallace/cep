@@ -1,0 +1,32 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/cep",
+    "queryParameters": {
+      "cep": {
+        "equalTo": "01007000"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody":  {
+      "cep": "01007-000",
+      "logradouro": "Avenida São João",
+      "complemento": "lado ímpar",
+      "unidade": "",
+      "bairro": "Centro",
+      "localidade": "São Paulo",
+      "uf": "SP",
+      "estado": "São Paulo",
+      "regiao": "Sudeste",
+      "ibge": "3550308",
+      "gia": "1004",
+      "ddd": "11",
+      "siafi": "7107"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/cep",
+    "queryParameters": {
+      "cep": {
+        "equalTo": "22041001"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "cep": "22041-001",
+      "logradouro": "Avenida Atlântica",
+      "complemento": "de 2174 a 2634 - lado par",
+      "unidade": "",
+      "bairro": "Copacabana",
+      "localidade": "Rio de Janeiro",
+      "uf": "RJ",
+      "estado": "Rio de Janeiro",
+      "regiao": "Sudeste",
+      "ibge": "3304557",
+      "gia": "",
+      "ddd": "21",
+      "siafi": "6001"
+    }
+  }
+}
