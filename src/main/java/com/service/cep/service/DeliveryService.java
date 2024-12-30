@@ -4,15 +4,22 @@ import com.service.cep.domian.Delivery;
 import com.service.cep.domian.enums.DeliveryStatus;
 import com.service.cep.dto.delivery.DeliveryCreateDTO;
 import com.service.cep.dto.delivery.DeliveryDetailDTO;
+import com.service.cep.dto.delivery.DeliveryFilter;
 import com.service.cep.dto.webservice.CepResponseDTO;
 import com.service.cep.mapper.DeliveryMapper;
 import com.service.cep.repository.DeliveryRepository;
+import com.service.cep.repository.DeliverySpecification;
 import com.service.cep.utils.DummyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class DeliveryService {
@@ -61,5 +68,14 @@ public class DeliveryService {
         };
 
         return deliveryMapper.toDeliveryDetailDTO(optionalDelivery.get());
+    }
+
+    public Page<DeliveryDetailDTO> findPageable(Pageable pageable, DeliveryFilter filter) {
+
+        var specificatin = DeliverySpecification.filterBy(filter);
+
+        Page<Delivery> deliveries = deliveryRepository.findAll(specificatin, pageable);
+
+        return deliveries.map(deliveryMapper::toDeliveryDetailDTO);
     }
 }

@@ -1,5 +1,6 @@
 package com.service.cep.dto.delivery;
 
+import com.service.cep.domian.Delivery;
 import com.service.cep.domian.enums.DeliveryStatus;
 
 public record DeliveryDetailDTO(
@@ -9,5 +10,13 @@ public record DeliveryDetailDTO(
         String trackingCode,
         DeliveryStatus status
 ) {
-
+    public DeliveryDetailDTO(Delivery delivery){
+        this(
+                delivery.getId(),
+                delivery.getOrigin(),
+                delivery.getDestination(),
+                delivery.getTrackingCode(),
+                DeliveryStatus.valueOf(delivery.getTrackingCode())
+        );
+    }
 }
