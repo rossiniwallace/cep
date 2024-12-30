@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,24 +20,22 @@ public class DeliveryController {
     private DeliveryService deliveryService;
 
     @GetMapping
-    public Page<DeliveryDetailDTO> findPageable(
+    public ResponseEntity<Page<DeliveryDetailDTO>> findPageable(
             DeliveryFilter filter,
             @PageableDefault(page = 0, size = 10) Pageable pageable){
         return deliveryService.findPageable(pageable, filter);
     }
 
     @PostMapping
-    public DeliveryDetailDTO create(@RequestBody DeliveryCreateDTO dto) {
+    public ResponseEntity<DeliveryDetailDTO> create(@RequestBody DeliveryCreateDTO dto) {
         return deliveryService.createDelivery(dto);
     }
 
     @PutMapping("/{trackingCode}")
-    public DeliveryDetailDTO updateDeliveryStatus(
+    public ResponseEntity<DeliveryDetailDTO> updateDeliveryStatus(
             @PathVariable String trackingCode,
             @RequestParam DeliveryStatus status
     ){
         return deliveryService.updateStatus(trackingCode, status);
     }
-
-    //TODO endpoint -> atualizar entrega por trackingCode
 }

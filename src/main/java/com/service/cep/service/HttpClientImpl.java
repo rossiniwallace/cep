@@ -1,5 +1,6 @@
 package com.service.cep.service;
 
+import com.service.cep.exception.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
@@ -24,6 +25,10 @@ public class HttpClientImpl implements HttpClientService {
 
             HttpClient client = HttpClient.newHttpClient();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if(response.statusCode() == 404){
+                throw new BadRequestException("CEP não encontrado: " + queryParams);
+            }
 
             return response.body();
         } catch (Exception e) {

@@ -13,13 +13,12 @@ import com.service.cep.utils.DummyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.net.URI;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class DeliveryService {
@@ -33,7 +32,7 @@ public class DeliveryService {
     @Autowired
     private DeliveryMapper deliveryMapper;
 
-    public DeliveryDetailDTO createDelivery(DeliveryCreateDTO dto) {
+    public ResponseEntity<DeliveryDetailDTO> createDelivery(DeliveryCreateDTO dto) {
 
       //TODO realizar tratativa de erros
 
@@ -55,11 +54,13 @@ public class DeliveryService {
         delivery.setOrderDate(now);
 
         deliveryRepository.saveAndFlush(delivery);
+        DeliveryDetailDTO deliveryDetailDTO = deliveryMapper.toDeliveryDetailDTO(delivery);
+        URI uri = URI.create("/deliveries/" + delivery.getTrackingCode());
 
-        return deliveryMapper.toDeliveryDetailDTO(delivery);
+        return ResponseEntity.created(uri).body(deliveryDetailDTO);
     }
 
-    public DeliveryDetailDTO findByTrackingCode(String trackingCode) {
+    public ResponseEntity<DeliveryDetailDTO> findByTrackingCode(String trackingCode) {
 
         Optional<Delivery> optionalDelivery = deliveryRepository.findByTrackingCode(trackingCode);
 
@@ -67,19 +68,23 @@ public class DeliveryService {
             throw new RuntimeException("Delivery not found for tracking code: " + trackingCode);
         };
 
-        return deliveryMapper.toDeliveryDetailDTO(optionalDelivery.get());
+        DeliveryDetailDTO deliveryDetailDTO = deliveryMapper.toDeliveryDetailDTO(optionalDelivery.get());
+
+        return ResponseEntity.ok(deliveryDetailDTO);
     }
 
-    public Page<DeliveryDetailDTO> findPageable(Pageable pageable, DeliveryFilter filter) {
+    public ResponseEntity<Page<DeliveryDetailDTO>> findPageable(Pageable pageable, DeliveryFilter filter) {
 
         var specificatin = DeliverySpecification.filterBy(filter);
 
         Page<Delivery> deliveries = deliveryRepository.findAll(specificatin, pageable);
 
-        return deliveries.map(deliveryMapper::toDeliveryDetailDTO);
+        Page<DeliveryDetailDTO> map = deliveries.map(deliveryMapper::toDeliveryDetailDTO);
+
+        return ResponseEntity.ok(map);
     }
 
-    public DeliveryDetailDTO updateStatus(String trackingCode, DeliveryStatus status) {
+    public ResponseEntity<DeliveryDetailDTO> updateStatus(String trackingCode, DeliveryStatus status) {
 
         Delivery delivery = deliveryRepository.findByTrackingCode(trackingCode)
                 .orElseThrow(() -> new RuntimeException("Delivery not found"));
@@ -87,7 +92,8 @@ public class DeliveryService {
         delivery.setStatus(status);
 
         deliveryRepository.save(delivery);
+        DeliveryDetailDTO deliveryDetailDTO = deliveryMapper.toDeliveryDetailDTO(delivery);
 
-        return deliveryMapper.toDeliveryDetailDTO(delivery);
+        return ResponseEntity.ok(deliveryDetailDTO);
     }
 }
